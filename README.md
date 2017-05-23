@@ -1,2 +1,2 @@
 # proposito-theme
-Proposito One page Wordpress Theme 
+One page Wordpress Theme 
