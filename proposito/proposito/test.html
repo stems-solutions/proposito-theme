@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        
+        <title> Get current position</title>
+        <script type="text/javascript">
+        function getPosition(){
+            //geolocation api is provided by the navigator object. here we are just checking if the location is available or not
+            
+            
+            if(navigator.geolocation){
+                
+              //getCurrentPosition function needs three parameters and the compulsory one is the sucess callback function i.e. what to do once the position is sucessfully calculated. 
+                navigator.geolocation.getCurrentPosition(sucessPosition); 
+            }
+            else
+                document.getElementById("result").innerHTML = "your browser does not support Geo Location"
+        }
+        
+            //this is the callback function as specified above. Position object has two properties: coords and timestamp. coords object returns a number of properties includinf latidude, longitude, accuracy, speed, heading , altitude and altidude accuracy
+            function sucessPosition(position){
+                
+               var lat=position.coords.latitude;
+                var long=position.coords.longitude;
+                
+                document.getElementById("result").innerHTML= "Latitude: " + lat +"<br>"+"Longitude: "+long; 
+            }
+        </script>
+    </head>
+    
+    
+    <body>
+        <div id="result"></div>
+        <button id="btnPosition" onclick="getPosition();">Get Current Position</button>
+    </body>
+</html>
