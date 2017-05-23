@@ -1,0 +1,355 @@
+/*
+
+Theme Name: Proposito
+Author: Stems Solutions
+Author URI: http://www.stems-solutions.com
+Description: Materialize based Wordpress Theme
+Version: 1.0
+Tags: materialize, travel, theme, sleek, professional, easy, clean, mobile ready, flat, simple
+Text Domain: proposito
+*/
+.clear { clear: both; height: 60px; }
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+
+/*End of reset code*/
+
+
+
+/*Stems Top Navigation Menu*/
+#hamburger{
+    margin-left:20px;
+}
+
+
+
+
+
+
+/*STEMS SLIDER*/
+/*
+.carousel .carousel-item{
+    
+    width:500px;
+    height:50% !important;
+   
+}
+
+.carousel{
+    
+   
+    height:100vh !important;
+}
+*/
+
+#stemsslider{
+    position:relative;
+
+    width:100%;
+    margin:auto;
+    padding:0px;
+    background:white;
+  border:2px solid black;
+    overflow: visible;
+}
+
+ 
+#pt_master{
+    background:gray;
+    width:100%;
+   
+}
+
+
+
+ #pt_header {
+ 
+     width:100%;
+     position:relative;
+     height:70px;
+     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);       
+/*     background:white;*/
+     border-bottom:1px solid #eee;
+     display:flex; 
+            justify-content:space-around;
+            align-items:center;
+            flex-direction:row; 
+            flex-wrap: nowrap;
+
+    }
+    
+#stems-navigation{
+ max-width:80%;
+    height:50px;
+        margin-right:50px;
+       /*    border:1px solid black;*/
+
+}
+#stems-navigation a{
+   list-style: none;
+    color:#111;
+    text-decoration:none;
+    font-family: serif sans-serif ;
+    font-size:100%;
+   
+}
+
+    /*top level menu items*/
+    #stems-navigation>ul>li{
+     
+        display:inline-block;
+        float:left;
+        height:45px;
+        margin:10px 60px 0px 0px;
+    /*    border:1px solid black;*/
+  
+ 
+    }
+      #stems-navigation ul ul {
+       position:absolute;
+        display:none;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+        z-index: 99999;
+        background:#ccc; /*outline of the submenu box*/
+        padding:1px;
+        margin-top:1.6em;
+         
+    }
+    #stems-navigation ul ul ul {
+       position:absolute;
+        display:none;
+        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+        z-index: 99999;
+        background:white; 
+        top:0px;
+      
+        min-width: 100%;
+        margin-top:0em;
+    }
+
+       #stems-navigation ul ul li {
+             background:white; /*background of the submenu box*/
+             padding:20px;
+
+    }
+
+#stems-navigation a{
+        text-decoration: none;
+        color: #111;
+    }
+    
+    #stems-navigation li{
+        list-style: none;
+
+    }
+    
+    /*All li elements unside all ul elements within #stems-navigation*/
+       #stems-navigation ul li:hover > ul,
+#stems-navigation ul li.focus > ul {
+	display:block;
+}
+
+    #stems-navigation li:hover{
+        text-decoration:underline; /*top level menu items hover style*/
+    }
+   #stems-navigation>ul ul li:hover{
+        background:#ccc; /*submenu hover colour*/
+                           -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+    -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
+    animation-name: example;
+    animation-duration: 0.8s;
+    }
+    .right_overflow_submenu{
+        
+        
+    }
+
+#hamburger{
+        visibility:hidden;
+    }
+    
+
+   
+
+
+
+/*SIDE MENU STYLES*/
+    
+
+    
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    left: 0;
+    background-color: white; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 100%;
+    color: #818181;
+    display: block;
+    transition: 0.3s
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover, .offcanvas a:focus{
+    color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#pt_master {
+    transition: margin-left .5s;
+    padding: 20px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 100%;}
+}
+
+
+@media screen and (max-width: 850px){
+    
+    #stems-navigation{
+        display:none;
+    }
+    
+    #hamburger{
+        visibility:visible;
+    }
+}
+
+
+
+
+stems_sidenav ul li{
+width:100%;
+    margin-right:0;
+    margin-left: 0;
+    
+    
+}
+/*FOOTER STYLES*/
+
+
+.pt_footer {
+    position:relative !important;
+    bottom:0px;
+
+}
+
+#colophon{
+    background:black;
+    position:relative;
+    bottom:0px;
+    right:0px;
+}
+
+.pt-bold div{
+
+    display:none;
+}
+
+
+
+
+
+
+
+/*
+SIDEBAR STYLES
+*/
+
+#sidebar{
+    
+    position:relative;
+    float:right;
+    right:0px;
+    width:33%;
+    background:white;
+    list-style: none;
+    text-decoration: none;
+    padding: 20px;
+    
+}
+
+#sidebar h2{
+    font-size: 14pt;
+    
+}
+
+
+
+
+/* content area */
+
+
+#main{
+    
+    display:block !important;
+    margin-bottom:10px;
+    min-height: 100vh;
+    
+}
