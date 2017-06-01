@@ -7,7 +7,7 @@ function pt_slider_customizer_register($wp_customize){
     
     
  $wp_customize->add_section('proposito_sliders', array(
-    'title'    => __('Slider Options', 'proposito'),
+    'title'    => __('Slider', 'proposito'),
     'description' => 'Slider Options',
      'priority' => '0',
 
@@ -15,23 +15,44 @@ function pt_slider_customizer_register($wp_customize){
     
     
                        /* SLIDER CHOICE*/ 
-$wp_customize->add_setting('slider_choice', array(
-    'default'    => '', 
+
+    
+    
+
+    
+    
+    
+    
+    
+
+    
+    
+$wp_customize->add_setting('slider_heading', array(
+    'default'    => 'Proposito Theme', 
 ));
  
 
-    
-    
-
-$wp_customize->add_control( 'slider_choice', array(
-	'label' => __( 'Choose Slider Type', 'proposito' ),
+$wp_customize->add_control( 'slider_heading', array(
+	'label' => __( 'Heading', 'proposito' ),
 	'section' => 'proposito_sliders',
-	'settings' => 'slider_choice',
-	'type' => 'radio',
-	'choices' => array(
-		'image' => 'Image Slider',
-		'content' => 'Content Slider',
-	),
+	'settings' => 'slider_heading',
+	'type' => 'text',
+
+) );
+    
+    
+    
+$wp_customize->add_setting('slider_bodytext', array(
+    'default'    => 'The ultimate One page Wordpress theme!', 
+));
+ 
+
+$wp_customize->add_control( 'slider_bodytext', array(
+	'label' => __( 'Body Text', 'proposito' ),
+	'section' => 'proposito_sliders',
+	'settings' => 'slider_bodytext',
+	'type' => 'textarea'
+
 ) );
 
 //
@@ -50,6 +71,78 @@ $wp_customize->add_control( 'slider_choice', array(
 //  'settings' => 'slider_item_width', 
 //  'label' => __( 'Image Width','proposito' ),
 //) );
+    
+    
+    /*FOR IMAGES*/
+
+    $wp_customize->add_setting( 'slider_image1', array(
+
+        
+) );
+
+$wp_customize->add_control(
+  new WP_Customize_Media_Control( $wp_customize, 'slider_image1', array(
+    'label' => __( 'Image Slider Image 1' ),
+    'section' => 'proposito_sliders', // Add a default or your own section
+      'settings' => 'slider_image1',
+)	)	);
+    
+    
+    
+        $wp_customize->add_setting( 'slider_image2', array(
+           
+        
+) );
+    
+    
+    
+
+$wp_customize->add_control(
+  new WP_Customize_Media_Control( $wp_customize, 'slider_image2', array(
+    'label' => __( 'Image Slider Image 2' ),
+    'section' => 'proposito_sliders', // Add a default or your own section
+      'settings' => 'slider_image2',
+)	)	);
+    
+    
+            $wp_customize->add_setting( 'slider_image3', array(
+
+        
+) );
+
+$wp_customize->add_control(
+  new WP_Customize_Media_Control( $wp_customize, 'slider_image3', array(
+    'label' => __( 'Image Slider Image 3' ),
+    'section' => 'proposito_sliders', // Add a default or your own section
+      'settings' => 'slider_image3',
+)	)	);
+
+    
+    
+                $wp_customize->add_setting( 'slider_image4', array(
+
+        
+) );
+
+$wp_customize->add_control(
+  new WP_Customize_Media_Control( $wp_customize, 'slider_image4', array(
+    'label' => __( 'Image Slider Image 4' ),
+    'section' => 'proposito_sliders', // Add a default or your own section
+      'settings' => 'slider_image4',
+)	)	);
+    
+    
+                    $wp_customize->add_setting( 'slider_image5', array(
+
+        
+) );
+
+$wp_customize->add_control(
+  new WP_Customize_Media_Control( $wp_customize, 'slider_image5', array(
+    'label' => __( 'Image Slider Image 5' ),
+    'section' => 'proposito_sliders', // Add a default or your own section
+      'settings' => 'slider_image5',
+)	)	);
     
       /* Full Width*/ 
 $wp_customize->add_setting('slider_fullwidth', array(
@@ -149,6 +242,10 @@ $wp_customize->add_control( 'slider_padding', array(
 ) );
 
     
+    
+    
+
+    
 }
 
 
@@ -168,6 +265,10 @@ function pt_slider_item_width_css_customizer(){
             display:none;
         }
         
+          #pt_content_slider{
+            display:block;
+        }
+        
         <?php
     }
     
@@ -177,6 +278,10 @@ function pt_slider_item_width_css_customizer(){
         
         #pt_content_slider{
             display:none;
+        }
+        
+           #pt_image_slider{
+            display:block;
         }
         
         <?php 
@@ -195,7 +300,7 @@ function pt_slider_item_width_css_customizer(){
                                                 shift: <?php echo get_theme_mod('slider_spacing'); ?>,
                                                 padding:<?php echo get_theme_mod('slider_padding'); ?>,
                                                 indicators:true,
-                                                noWrap:true,
+                                                noWrap:false,
                                                
                                                
                                                

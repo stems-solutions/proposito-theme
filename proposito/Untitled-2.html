@@ -1,625 +1,95 @@
-<?php
-
-//setup
-add_theme_support('menus');
-
-
-
-
-
-
-//includes 
-
-
-include( get_template_directory() . '/inc/walker.php');
-
-include( get_template_directory() . '/inc/walker_main_nav.php');
-
-include( get_template_directory() . '/includes/front/enqueue.php');
-
-include( get_template_directory() . '/includes/widgets.php');
-
-include( get_template_directory() . 'sidebar.php');
-
-include( get_template_directory() . '/includes/setup.php');
-
-include( get_template_directory() . '/includes/activate.php');
-
-include( get_template_directory() . '/includes/admin/menus.php');
-
-include( get_template_directory() . '/includes/admin/options-page.php');
-
-include( get_template_directory() . '/includes/admin/init.php');
-
-include( get_template_directory() . '/form_process/save-options.php');
-
-       
-
-
-/*customizer files*/
-include( get_template_directory() . '/includes/admin/customizer/colours.php');
-
-include( get_template_directory() . '/includes/admin/customizer/slider_options.php');
-
-include( get_template_directory() . '/includes/admin/customizer/section1_options.php');
-
-include( get_template_directory() . '/includes/admin/customizer/Image_select_custom_control.php');
-
-include( get_template_directory() . '/customizer.php');
-
-
-
-
-
-
-
-
-
-/*Action and Filter Hooks*/
-
-add_action( 'wp_enqueue_scripts', 'proposito_scripts' );
-
-add_action( 'wp_enqueue_scripts', 'proposito_styles' );
-
-add_action( 'widgets_init', 'proposito_widgets' );
-
-add_action( 'after_setup_theme', 'proposito_setup');
-
-add_action( 'after_switch_theme', 'pt_activate');
-
-add_action('admin_menu','pt_admin_menus');
-
-add_action('admin_init','pt_admin_init');
-
-add_action('customize_register', 'pt_colour_customizer_register');
-
-add_action('customize_register', 'pt_slider_customizer_register');
-
-add_action('customize_register', 'pt_section1_customizer_register');
-
-add_action( 'customize_controls_enqueue_scripts', 'pt_customizer_controls' );
-
-
-
-
-
-
-
-
-
-
-/**
- * Customizer settings.
- */
-
-if ( class_exists( 'WP_Customize_Control' ) ){
-	
-class Textarea_Custom_Control extends WP_Customize_Control {
-	
-	/**
-	 * @access public
-	 * @var    string
-	 */
-	public $type = 'textarea';
-	
-	/**
-	 * @access public
-	 * @var    array
-	 */
-	public $statuses;
-	
-	/**
-	 * Constructor.
-	 *
-	 * If $args['settings'] is not defined, use the $id as the setting ID.
-	 *
-	 * @since   10/16/2012
-	 * @uses    WP_Customize_Control::__construct()
-	 * @param   WP_Customize_Manager $manager
-	 * @param   string $id
-	 * @param   array $args
-	 * @return  void
-	 */
-	public function __construct( $manager, $id, $args = array() ) {
-		
-		$this->statuses = array( '' => __( 'Default' ) );
-		parent::__construct( $manager, $id, $args );
-	}
-	
-	/**
-	 * Render the control's content.
-	 * 
-	 * Allows the content to be overriden without having to rewrite the wrapper.
-	 * 
-	 * @since   10/16/2012
-	 * @return  void
-	 */
-	public function render_content() {
-		?>
-		<label>
-			<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-			<textarea class="large-text" cols="20" rows="5" <?php $this->link(); ?>>
-				<?php echo esc_textarea( $this->value() ); ?>
-			</textarea>
-		</label>
-		<?php
-	}
-	
-}
-
- 
-class Toggle_Checkbox_Custom_control extends WP_Customize_Control{
-	public $type = 'toogle_checkbox';
-	public function enqueue(){
-		wp_enqueue_style(
-            'custom_controls_css', get_template_directory_uri().'/inc/custom_controls.css'
-        );
-	}
-	public function render_content(){
-		?>
-		<div class="checkbox_switch">
-			<div class="onoffswitch">
-			    <input type="checkbox" id="<?php echo esc_attr($this->id); ?>" name="<?php echo esc_attr($this->id); ?>" class="onoffswitch-checkbox" value="<?php echo esc_attr( $this->value() ); ?>" <?php $this->link(); checked( $this->value() ); ?>>
-			    <label class="onoffswitch-label" for="<?php echo esc_attr($this->id); ?>"></label>
-			</div>
-			<span class="customize-control-title onoffswitch_label"><?php echo esc_html( $this->label ); ?></span>
-			<p><?php echo wp_kses_post($this->description); ?></p>
-		</div>
-		<?php
-	}
-    }
-
-class Image_Select_Custom_Control extends WP_Customize_Control{
-	public $type = 'image_select';
-	public function enqueue(){
-		wp_enqueue_style( 'custom_controls_css', get_template_directory_uri().'/inc/custom_controls.css');
-	}
-	public function render_content(){
-	?>
-		<div class="customize_image_select">
-			<span class="customize-control-title"><?php echo esc_html( $this->label ); ?></span>
-			<p><?php echo wp_kses_post($this->description); ?></p>
-			
-			<div id="result">
-				
-			
-				
-        <label>
-            <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="flash_on" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('flash_on', esc_attr($this->value()) );?>/>
-
-            <i class="material-icons" style="font-size:30px">flash_on</i>
-
-
-        </label>
-
-
-        <label>
-            <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="input" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('input', esc_attr($this->value()) );?>/>
-
-           <i class="material-icons dp48">input</i>
-
-        </label>     
-           
-           
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="info_outline" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('info_outline', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">info_outline</i>
-
-        </label>   
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="invert_colors" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('invert_colors', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">invert_colors</i>
-
-        </label>
-        
-             
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="label" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('label', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">label</i>
-
-        </label>
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="label_outline" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('label_outline', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">label_outline</i>
-
-        </label>    
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="language" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('language', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">language</i>
-
-        </label>     
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="query_builder" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('query_builder', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">query_builder</i>
-
-        </label>    
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="perm_identity" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('perm_identity', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">perm_identity</i>
-
-        </label>      
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="perm_media" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('perm_media', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">perm_media</i>
-
-        </label>      
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="perm_phone_msg" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('perm_phone_msg', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">perm_phone_msg</i>
-
-        </label>      
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="perm_scan_wifi" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('perm_scan_wifi', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">perm_scan_wifi</i>
-
-        </label>    
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="picture_in_picture" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('picture_in_picture', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">picture_in_picture</i>
-
-        </label>   
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="play_for_work" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('play_for_work', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">play_for_work</i>
-
-        </label>
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="polymer" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('polymer', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">polymer</i>
-
-        </label>    
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="power_settings_new" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('power_settings_new', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">power_settings_new</i>
-
-        </label>        
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="print" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('print', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">print</i>
-
-        </label>      
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="thumb_down" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('thumb_down', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">thumb_down</i>
-
-        </label>        
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="thumbs_up_down" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('thumbs_up_down', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">thumbs_up_down</i>
-
-        </label>    
-        
-         
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="email" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('email', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">email</i>
-
-        </label>   
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="dialpad" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('dialpad', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">dialpad</i>
-
-        </label>  
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="dialer_sip" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('dialer_sip', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">dialer_sip</i>
-
-        </label>     
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="contacts" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('contacts', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">contacts</i>
-
-        </label>        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="forward_5" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('forward_5', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">forward_5</i>
-
-        </label>       
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="stay_current_portrait" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('stay_current_portrait', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">stay_current_portrait</i>
-
-        </label>        
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="stay_primary_landscape" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('stay_primary_landscape', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">stay_primary_landscape</i>
-
-        </label>        
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="stay_primary_portrait" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('stay_primary_portrait', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">stay_primary_portrait</i>
-
-        </label>       
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="swap_calls" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('swap_calls', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">swap_calls</i>
-
-        </label>        
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="textsms" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('textsms', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">textsms</i>
-
-        </label>        
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="voicemail" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('voicemail', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">voicemail</i>
-
-        </label>       
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="vpn_key" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('vpn_key', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">vpn_key</i>
-
-        </label>   
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="group_work" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('group_work', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">group_work</i>
-
-        </label>      
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="grade" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('grade', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">grade</i>
-
-        </label>        
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="clear_all" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('clear_all', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">clear_all</i>
-
-        </label>       
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="chat_bubble_outline" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('chat_bubble_outline', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">chat_bubble_outline</i>
-
-        </label>      
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="chat_bubble" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('chat_bubble', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">chat_bubble</i>
-
-        </label>       
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="repeat" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('repeat', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">repeat</i>
-
-        </label>      
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="repeat_one" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('repeat_one', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">repeat_one</i>
-
-        </label>    
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="replay" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('replay', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">replay</i>
-
-        </label>     
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="replay_10" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('replay_10', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">replay_10</i>
-
-        </label>    
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="replay_30" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('replay_30', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">replay_30</i>
-
-        </label>       
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="replay_5" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('replay_5', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">replay_5</i>
-
-        </label>    
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="shuffle" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('shuffle', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">shuffle</i>
-
-        </label>       
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="skip_next" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('skip_next', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">skip_next</i>
-
-        </label>     
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="skip_previous" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('skip_previous', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">skip_previous</i>
-
-        </label>       
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="contact_phone" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('contact_phone', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">contact_phone</i>
-
-        </label>       
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="comment" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('comment', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">comment</i>
-
-        </label>    
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="recent_actors" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('recent_actors', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">recent_actors</i>
-
-        </label>      
-        
-          <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="snooze" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('snooze', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">snooze</i>
-
-        </label>       
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="sort_by_alpha" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('sort_by_alpha', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">sort_by_alpha</i>
-
-        </label>        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="stop" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('stop', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">stop</i>
-
-        </label>        
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="subtitles" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('subtitles', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">subtitles</i>
-
-        </label>       
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="surround_sound" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('surround_sound', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">surround_sound</i>
-
-        </label>       
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="web" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('web', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">web</i>
-
-        </label>     
-        
-        
-        <label>
-        <input type="radio" name="<?php echo esc_attr($this->id); ?>" value="volume_up" data-customize-setting-link="<?php echo esc_attr($this->id); ?>" <?php checked('volume_up', esc_attr($this->value()) );?>/>
-
-        <i class="material-icons dp48">volume_up</i>
-
-        </label>
+<!DOCTYPE html>
+<html>
+    <head>
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+        <title> Get current position</title>
+     
+        
+        <style type="text/css">
+            #result{
+                display:flex;
+                flex-direction:row;
+                flex-wrap: wrap;
+                background:white;
+                height:300px;
+                width:300px;
+                overflow: scroll;
+                
+            }
             
-  
-
-
-         
-
-
-
-
-
-
-
-
-      
+            #result .material-icons{
+                display:inline-block !important;
+                padding:15px;
+                
+            }
+            
+            #result span{
+                display:none;
+            }
+        </style>
+        
+    </head>
+    
+    
+    <body>
+        <div id="result">
+            
+            <div class="icon-preview col s3 m3"><i class="material-icons dp48">info_outline</i></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">input</i></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">invert_colors</i><span>invert_colors</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">label</i><span>label</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">label_outline</i><span>label_outline</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">language</i><span>language</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">query_builder</i><span>query_builder</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">perm_identity</i><span>perm_identity</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">perm_media</i><span>perm_media</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">perm_phone_msg</i><span>perm_phone_msg</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">perm_scan_wifi</i><span>perm_scan_wifi</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">picture_in_picture</i><span>picture_in_picture</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">play_for_work</i><span>play_for_work</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">polymer</i><span>polymer</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">power_settings_new</i><span>power_settings_new</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">print</i><span>print</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">thumb_down</i><span>thumb_down</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">thumb_up</i><span>thumb_up</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">thumbs_up_down</i><span>thumbs_up_down</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">email</i><span>email</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">dialpad</i><span>dialpad</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">dialer_sip</i><span>dialer_sip</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">contacts</i><span>contacts</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">forward_5</i><span>forward_5</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">stay_current_portrait</i><span>stay_current_portrait</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">stay_primary_landscape</i><span>stay_primary_landscape</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">stay_primary_portrait</i><span>stay_primary_portrait</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">swap_calls</i><span>swap_calls</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">textsms</i><span>textsms</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">voicemail</i><span>voicemail</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">vpn_key</i><span>vpn_key</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">group_work</i><span>group_work</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">grade</i><span>grade</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">clear_all</i><span>clear_all</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">chat_bubble_outline</i><span>chat_bubble_outline</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">chat_bubble</i><span>chat_bubble</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">repeat</i><span>repeat</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">repeat_one</i><span>repeat_one</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">replay</i><span>replay</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">replay_10</i><span>replay_10</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">replay_30</i><span>replay_30</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">replay_5</i><span>replay_5</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">shuffle</i><span>shuffle</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">skip_next</i><span>skip_next</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">skip_previous</i><span>skip_previous</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">contact_phone</i><span>contact_phone</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">comment</i><span>comment</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">recent_actors</i><span>recent_actors</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">snooze</i><span>snooze</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">sort_by_alpha</i><span>sort_by_alpha</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">stop</i><span>stop</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">subtitles</i><span>subtitles</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">surround_sound</i><span>surround_sound</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">web</i><span>web</span></div>
+          <div class="icon-preview col s3 m3"><i class="material-icons dp48">volume_up</i><span>volume_up</span></div>
           <div class="icon-preview col s3 m3"><i class="material-icons dp48">volume_off</i><span>volume_off</span></div>
           <div class="icon-preview col s3 m3"><i class="material-icons dp48">volume_mute</i><span>volume_mute</span></div>
           <div class="icon-preview col s3 m3"><i class="material-icons dp48">toc</i><span>toc</span></div>
@@ -809,19 +279,7 @@ class Image_Select_Custom_Control extends WP_Customize_Control{
 
 
         </div>
-		</div>
-	<?php
-	}
-}
-
-}
-
-
-
-
-
-
-//Shortcodes 
-
-
-
+       
+    
+    </body>
+</html>

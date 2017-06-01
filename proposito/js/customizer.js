@@ -8,35 +8,56 @@
 
 ( function( $ ) {
 
-	// Site title and description.
-	wp.customize( 'blogname', function( value ) {
-		value.bind( function( to ) {
-			$( '.site-title a' ).text( to );
-		} );
-	} );
-	wp.customize( 'blogdescription', function( value ) {
-		value.bind( function( to ) {
-			$( '.site-description' ).text( to );
-		} );
-	} );
 
-	// Header text color.
-	wp.customize( 'header_textcolor', function( value ) {
-		value.bind( function( to ) {
-			if ( 'blank' === to ) {
-				$( '.site-title a, .site-description' ).css( {
-					'clip': 'rect(1px, 1px, 1px, 1px)',
-					'position': 'absolute'
+    
+    	wp.customize.bind( 'ready', function() {
+
+		function hideShowSliderChoiceControls() {
+			/* Hide and show controls for Slider type choice and custom  */
+			// array for our id titles
+			/*var silderControlIds = [
+				'slider_fullwidth',
+				'slider_duration',
+                'slider_dist',
+                'slider_padding',
+                'slider_spacing',
+                'slider_noWrap',
+                'slider_image1',
+                'slider_image2',
+                'slider_image3',
+                'slider_image4',
+                'slider_image5'
+			];
+			
+            
+            			if ( wp.customize.instance( 'slider_choice' ).get() === 'image' ) {
+				$.each( silderControlIds, function ( i, value ) {	
+                   
+					$( '#customize-control-' + value ).show();
+					$( silderControlIds ).show();
 				} );
 			} else {
-				$( '.site-title a, .site-description' ).css( {
-					'clip': 'auto',
-					'position': 'relative'
-				} );
-				$( '.site-title a, .site-description' ).css( {
-					'color': to
+                
+             
+				$.each( silderControlIds, function ( i, value ) { 
+					$( '#customize-control-' + value ).hide();
+					$( silderControlIds ).hide();
+					//console.log( '#customize-control-' + value );
 				} );
 			}
-		} );
+			
+			return hideShowSliderChoiceControls;
+*/
+		}
+            
+            // Call this function on page load
+	/*
+    hideShowSliderChoiceControls();
+		
+		// ... and on radio button change
+		$( '#customize-control-slider_choice' ).on( 'change', hideShowSliderChoiceControls );*/	
+            
+            
+		
 	} );
 } )( jQuery );

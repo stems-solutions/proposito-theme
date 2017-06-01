@@ -100,30 +100,7 @@ function pt_theme_opts_page(){
                     <div class="collapsible-body"><span>
                         
                         
-                         <div class="row valign-wrapper">
-        <div class="col s3">
-            <h5>Slider Type</h5>
-        </div>
-        <div class="col s9">
-            <p>
-                <input name="pt_slider" type="radio" id="content_slider_radio_btn" value="1" <?php echo $theme_opts[ 'slider_type']==1? 'checked': '';?> />
-                <label for="content_slider_radio_btn">Content Slider</label>
-            </p>
-            <p>
-                <input name="pt_slider" type="radio" id="image_slider_radio_btn" value="2" <?php echo $theme_opts[ 'slider_type']==2? 'checked': '';?>/>
-                <label for="image_slider_radio_btn">Image Corousel</label>
-                
-               
-           
-            </p>
-            
-            
-            <p>
-                <input name="pt_slider" type="radio" id="test3" value="3" <?php echo $theme_opts[ 'slider_type']==3? 'checked': '';?> />
-                <label for="test3">None</label>
-            </p>
-        </div>
-    </div>
+    
     
     <div id ="pt_silderimageinputs"class="row <?php echo $theme_opts[ 'slider_type']==2? '': 'hide';?>">
 <!--                       Slider Image 1-->

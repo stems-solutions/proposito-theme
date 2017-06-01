@@ -1,5 +1,4 @@
 /*
-
 Theme Name: Proposito
 Author: Stems Solutions
 Author URI: http://www.stems-solutions.com
@@ -9,6 +8,9 @@ Tags: materialize, travel, theme, sleek, professional, easy, clean, mobile ready
 Text Domain: proposito
 */
 .clear { clear: both; height: 60px; }
+
+
+ 
 
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -55,154 +57,142 @@ table {
 }
 
 
-/*End of reset code*/
+/*
+*
+*End of reset code
+*
+*/
 
 
+/*
+*
+* Slider/Carousel
+*
+*/
 
-/*Stems Top Navigation Menu*/
+.indicators .indicator-item {
+    background-color: #dddddd!important;
+    border: 1px solid #cccccc !important;
+
+}
+
+.indicators .indicator-item.active {
+    background-color: #111111 !important;
+    border: 1px solid #111111 !important;
+}
+
+
+#pt_header {
+    width:100%;
+    position:relative;
+    height:70px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);       
+    border-bottom:1px solid #eee;
+    display:flex; 
+    justify-content:space-around;
+    align-items:center;
+    flex-direction:row; 
+    flex-wrap: nowrap;
+    }
+  
+
+.slider{
+    position:relative !important;
+    z-index:1 !important;
+    top:0px !important;
+    right: 0;
+    overflow: auto;
+    height:93vh !important;
+    }
+
+/*
+*
+* Naivtation 
+*
+*/
+
 #hamburger{
     margin-left:20px;
 }
 
 
-
-
-
-
-/*STEMS SLIDER*/
-/*
-.carousel .carousel-item{
-    
-    width:500px;
-    height:50% !important;
-   
-}
-
-.carousel{
-    
-   
-    height:100vh !important;
-}
-*/
-
-#stemsslider{
-    position:relative;
-
-    width:100%;
-    margin:auto;
-    padding:0px;
-    background:white;
-  border:2px solid black;
-    overflow: visible;
-}
-
- 
-#pt_master{
-    background:gray;
-    width:100%;
-   
-}
-
-
-
- #pt_header {
- 
-     width:100%;
-     position:relative;
-     height:70px;
-     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.4);       
-/*     background:white;*/
-     border-bottom:1px solid #eee;
-     display:flex; 
-            justify-content:space-around;
-            align-items:center;
-            flex-direction:row; 
-            flex-wrap: nowrap;
-
-    }
-    
 #stems-navigation{
- max-width:80%;
+    max-width:80%;
     height:50px;
-        margin-right:50px;
-       /*    border:1px solid black;*/
-
+    margin-right:50px;
 }
+
 #stems-navigation a{
-   list-style: none;
+    list-style: none;
     color:#111;
     text-decoration:none;
     font-family: serif sans-serif ;
     font-size:100%;
-   
-}
+   }
 
     /*top level menu items*/
-    #stems-navigation>ul>li{
-     
-        display:inline-block;
-        float:left;
-        height:45px;
-        margin:10px 60px 0px 0px;
-    /*    border:1px solid black;*/
-  
- 
-    }
-      #stems-navigation ul ul {
-       position:absolute;
-        display:none;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-        z-index: 99999;
-        background:#ccc; /*outline of the submenu box*/
-        padding:1px;
-        margin-top:1.6em;
-         
-    }
-    #stems-navigation ul ul ul {
-       position:absolute;
-        display:none;
-        box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
-        z-index: 99999;
-        background:white; 
-        top:0px;
-      
-        min-width: 100%;
-        margin-top:0em;
+#stems-navigation>ul>li{ 
+    display:inline-block;
+    float:left;
+    height:45px;
+    margin:10px 60px 0px 0px;
     }
 
-       #stems-navigation ul ul li {
-             background:white; /*background of the submenu box*/
-             padding:20px;
+#stems-navigation ul ul {
+    position:absolute;
+    display:none;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    z-index: 99999;
+    background:#ccc; /*outline of the submenu box*/
+    padding:1px;
+    margin-top:1.6em;
+    }
 
+#stems-navigation ul ul ul {
+    position:absolute;
+    display:none;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2);
+    z-index: 99999;
+    background:white; 
+    top:0px;
+    min-width: 100%;
+    margin-top:0em;
+    }
+
+#stems-navigation ul ul li {
+    background:white; /*background of the submenu box*/
+    padding:20px;
     }
 
 #stems-navigation a{
-        text-decoration: none;
-        color: #111;
+    text-decoration: none;
+    color: #111;
     }
     
-    #stems-navigation li{
-        list-style: none;
+#stems-navigation li{
+    list-style: none;
 
     }
     
     /*All li elements unside all ul elements within #stems-navigation*/
-       #stems-navigation ul li:hover > ul,
+#stems-navigation ul li:hover > ul,
 #stems-navigation ul li.focus > ul {
 	display:block;
 }
 
-    #stems-navigation li:hover{
-        text-decoration:underline; /*top level menu items hover style*/
+#stems-navigation li:hover{
+    text-decoration:underline; /*top level menu items hover style*/
     }
-   #stems-navigation>ul ul li:hover{
-        background:#ccc; /*submenu hover colour*/
-                           -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
+   
+#stems-navigation>ul ul li:hover{
+    background:#ccc; /*submenu hover colour*/
+    -webkit-animation-name: example; /* Safari 4.0 - 8.0 */
     -webkit-animation-duration: 4s; /* Safari 4.0 - 8.0 */
     animation-name: example;
     animation-duration: 0.8s;
     }
-    .right_overflow_submenu{
+
+.right_overflow_submenu{
         
         
     }
@@ -211,15 +201,13 @@ table {
         visibility:hidden;
     }
     
-
-   
-
-
-
-/*SIDE MENU STYLES*/
+/*
+*
+*Side Nav: Popout side navigation for mobile devices
+*
+*/
     
 
-    
 .sidenav {
     height: 100%; /* 100% Full-height */
     width: 0; /* 0 width - change this with JavaScript */
@@ -257,7 +245,7 @@ table {
     margin-left: 50px;
 }
 
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+/*Tp push content to the right*/
 #pt_master {
     transition: margin-left .5s;
     padding: 20px;
@@ -282,17 +270,17 @@ table {
 }
 
 
-
-
 stems_sidenav ul li{
-width:100%;
+    width:100%;
     margin-right:0;
     margin-left: 0;
-    
-    
 }
-/*FOOTER STYLES*/
 
+/*
+*
+*Footer: Footer related styling
+*
+*/
 
 .pt_footer {
     position:relative !important;
@@ -313,13 +301,9 @@ width:100%;
 }
 
 
-
-
-
-
-
-/*
-SIDEBAR STYLES
+/**
+*SIDEBAR STYLES
+*Styling for the mobile sidebar 
 */
 
 #sidebar{
@@ -340,16 +324,16 @@ SIDEBAR STYLES
     
 }
 
-
-
-
-/* content area */
+/*
+*
+*Content area styling
+*
+*/
 
 
 #main{
-    
-    display:block !important;
     margin-bottom:10px;
-    min-height: 100vh;
-    
+
 }
+
+

@@ -10,25 +10,24 @@ function closeNav() {
 /*To ensure that the submenus are displayed either right ot left based on space available.*/
 jQuery(function () {
     
-        
 
+    
     
     jQuery('select').material_select();
+    window.setInterval(function(){jQuery('.carousel').carousel('next')},6000)
          jQuery('.carousel').carousel();
-  jQuery('.carousel.carousel-slider').carousel({fullWidth: true,
-                                                duration: 1000,
-                                                dist: 0,
-                                                shift: 0,
-                                                padding:0,
-                                                indicators:true,
-                                                noWrap:false,
-                                               
-                                               
-                                               
-                                               });
+
     
     
 
+  jQuery('.slider').slider({
+
+    interval:5000,
+    transition:800,
+      indicators:false
+     });
+    
+    
     jQuery('.pt-padding').mouseenter(function () {
         //           alert('hovered');
         jQuery(this).find('div').addClass('waves-effect waves-teal');
